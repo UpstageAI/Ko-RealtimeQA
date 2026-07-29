@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.env
+.DS_Store
+runs/
+
+# evaluate.py 실행 결과(회차별)
+eval/[0-9]*-[0-9]*/
