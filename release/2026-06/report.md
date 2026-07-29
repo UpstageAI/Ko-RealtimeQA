@@ -89,4 +89,4 @@ closed 편차 큼(Haiku 3.9 ~ GPT-5.5 35.2). 이는 **모델 지식이 아니라
 ## 부록 — 산출물
 
 - 재현: retrieved는 `202606_retrieve.jsonl` 동결본 로드(동결 2026/07/15 11:27, 재검색 불필요), oracle은 `202606_source.jsonl` 원문 주입.
-- 실행: `python -m evaluation.cli run-eval --public-dir release/2026-06 --search all --out runs/eval_v2` (`EVAL_CONCURRENCY=8`)
+- 재현: 이 폴더의 `evaluate.py`로 3조건 평가를 그대로 돌릴 수 있다 (`cd release/2026-06 && python evaluate.py --help`).
