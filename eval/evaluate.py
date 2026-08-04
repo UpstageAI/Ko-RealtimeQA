@@ -361,54 +361,6 @@ def build_report(month, model_name, rows, qa_by_id, modes):
     return "\n".join(L)
 
 
-def md_to_html(md):
-    import html as _h
-    out = ["<!doctype html><meta charset='utf-8'><title>평가 리포트</title>",
-           "<style>body{font-family:system-ui,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;line-height:1.5}"
-           "table{border-collapse:collapse;margin:1rem 0}th,td{border:1px solid #ccc;padding:4px 10px;text-align:left}"
-           "th{background:#f5f5f5}blockquote{color:#555;border-left:3px solid #ccc;padding-left:1rem;margin-left:0}</style>"]
-
-    def inline(s):
-        s = _h.escape(s)
-        s = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", s)
-        s = re.sub(r"`(.+?)`", r"<code>\1</code>", s)
-        return s
-
-    lines = md.split("\n")
-    i = 0
-    while i < len(lines):
-        ln = lines[i]
-        if ln.startswith("## "):
-            out.append(f"<h2>{inline(ln[3:])}</h2>")
-        elif ln.startswith("# "):
-            out.append(f"<h1>{inline(ln[2:])}</h1>")
-        elif ln.startswith("> "):
-            out.append(f"<blockquote>{inline(ln[2:])}</blockquote>")
-        elif ln.startswith("- "):
-            items = []
-            while i < len(lines) and lines[i].startswith("- "):
-                items.append(f"<li>{inline(lines[i][2:])}</li>")
-                i += 1
-            out.append("<ul>" + "".join(items) + "</ul>")
-            continue
-        elif ln.startswith("|"):
-            rows = []
-            while i < len(lines) and lines[i].startswith("|"):
-                rows.append(lines[i])
-                i += 1
-            header = [c.strip() for c in rows[0].strip("|").split("|")]
-            body = rows[2:] if len(rows) > 2 else []
-            thtml = "<tr>" + "".join(f"<th>{inline(c)}</th>" for c in header) + "</tr>"
-            bhtml = "".join("<tr>" + "".join(f"<td>{inline(c)}</td>" for c in
-                            [x.strip() for x in br.strip('|').split('|')]) + "</tr>" for br in body)
-            out.append(f"<table>{thtml}{bhtml}</table>")
-            continue
-        elif ln.strip():
-            out.append(f"<p>{inline(ln)}</p>")
-        i += 1
-    return "\n".join(out)
-
-
 # ─────────────────────────────────────────────────────────────────────────────
 def main():
     here = os.path.dirname(os.path.abspath(__file__))         # eval/
@@ -501,9 +453,7 @@ def main():
     md = build_report(args.month, args.model_name, all_rows, qa_by_id, conditions)
     with open(os.path.join(out_dir, "report.md"), "w", encoding="utf-8") as f:
         f.write(md)
-    with open(os.path.join(out_dir, "report.html"), "w", encoding="utf-8") as f:
-        f.write(md_to_html(md))
-    print(f"\n→ {out_dir}/summary.json · results.jsonl · report.md · report.html")
+    print(f"\n→ {out_dir}/summary.json · results.jsonl · report.md")
 
 
 if __name__ == "__main__":
