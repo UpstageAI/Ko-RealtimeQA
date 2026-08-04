@@ -1,0 +1,31 @@
+{
+  "dataset": "Ko-RealtimeQA",
+  "month": "2026-07",
+  "version": "v1",
+  "usage": "academic/research only",
+  "source": "korea.kr 정책뉴스 (공공누리 제1유형)",
+  "license_by_file": {
+    "202607_qa.jsonl": "CC BY 4.0 (korea.kr 정책뉴스, 공공누리 제1유형)",
+    "202607_qa_public.jsonl": "CC BY 4.0 (korea.kr 정책뉴스, 공공누리 제1유형)",
+    "202607_source.jsonl": "CC BY 4.0 (korea.kr 정책뉴스 원문, 공공누리 제1유형)",
+    "202607_retrieve.jsonl": "연구용(research use only). 제3자 웹 콘텐츠로 원저작권자 소유 — 재현성 목적 수집·저장, 각 문서 URL 명시(출처 추적), 권리자 요청 시 삭제(takedown). 상업적 이용 불가."
+  },
+  "schema_version": "4.1",
+  "answers_separated": true,
+  "counts": {
+    "qa": 272,
+    "articles": 272
+  },
+  "files": {
+    "qa": "202607_qa.jsonl",
+    "qa_public": "202607_qa_public.jsonl",
+    "source": "202607_source.jsonl",
+    "retrieve": "202607_retrieve.jsonl"
+  },
+  "sha256": {
+    "202607_qa.jsonl": "8105bf92db70319584b78977155c8f304745175d00b2a2f76f0dfc9b09ba5d43",
+    "202607_qa_public.jsonl": "a7c634cc86850b5ed433db2ec49653edc5af89950dcdefaf72d97e7e7bb00199",
+    "202607_source.jsonl": "0ae6ea45b119ca4e4589d227578c6559236e3374551fa3a30ac907a0e5f3d8e9",
+    "202607_retrieve.jsonl": "5c53faeb29fbc185cdc9ebf2d19c8e9a4efa2078edf421d218074d1ce714e9d3"
+  }
+}
