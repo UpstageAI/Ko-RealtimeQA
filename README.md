@@ -27,7 +27,7 @@ Ko-RealtimeQA/
 │   │   ├── 202606_source.jsonl          정답 출처 원문 (oracle 조건)
 │   │   ├── 202606_retrieve.jsonl        웹검색 동결본 (retrieved 조건)
 │   │   └── manifest.json                메타·SHA256·라이선스
-│   └── 2026-07/ …                   (현재 회차는 _qa_public·_retrieve만, 정답·원문 보류)
+│   └── 2026-07/ …                   (현재 회차 — gold 정답 `_qa`만 보류, `_qa_public`·`_source`·`_retrieve` 공개)
 ├── eval/
 │   ├── evaluate.py              단독 실행 평가·제출 스크립트 (requests만 필요)
 │   ├── sample_submission.jsonl  제출 포맷 예시
@@ -67,8 +67,8 @@ python eval/evaluate.py --month 2026-08 \
 
 ## 운영 방식
 
-- **매월**: 새 회차의 **질문(`_qa_public`)과 검색 동결본(`_retrieve`)**, 주요 모델 리더보드를 공개한다. 오염 방지를 위해 **해당 월의 정답·원문은 보류**한다.
-- **창 종료(익월)**: 평가 창이 닫히면 정답(`_qa`)·원문(`_source`)까지 **전수 공개**하며, 그 회차는 재현·연구용 과거 회차가 된다.
+- **매월**: 새 회차의 **질문(`_qa_public`)·원문(`_source`)·검색 동결본(`_retrieve`)**과 주요 모델 리더보드를 공개한다. 오염 방지를 위해 **우리가 생성한 gold 정답(`_qa`)만 보류**한다(원문 기사는 이미 공개된 korea.kr 웹 문서라 보류 대상이 아니다).
+- **창 종료(익월)**: 평가 창이 닫히면 보류했던 **gold 정답(`_qa`)까지 공개**하며, 그 회차는 재현·연구용 과거 회차가 된다.
 - **채점**: 현재 회차는 **제출형**으로 운영한다(모델 답변 제출 → 운영자가 보류된 정답으로 채점). 과거 회차는 정답이 공개되어 자율 채점이 가능하다. 상세는 [docs/SUBMISSION.md](docs/SUBMISSION.md).
 
 ## 생성 방식

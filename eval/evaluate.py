@@ -263,6 +263,11 @@ def summarize(rows):
 # ─────────────────────────────────────────────────────────────────────────────
 # 리포트 (Ko-RealtimeQA 표준 형식: 개요·결과·최신성격차/헤드룸·도메인·카테고리)
 # ─────────────────────────────────────────────────────────────────────────────
+def _model_slug(name):
+    """모델명 → 폴더명 안전 문자열 (예: anthropic/claude-opus-5 → anthropic-claude-opus-5)."""
+    return re.sub(r"[^\w.\-]+", "-", str(name)).strip("-") or "model"
+
+
 def _pct(x):
     return f"{x * 100:.1f}%" if isinstance(x, (int, float)) else "-"
 
@@ -452,7 +457,7 @@ def main():
                   if args.conditions else avail)
     conditions = [c for c in conditions if c in avail]
 
-    out_dir = os.path.join(args.out_root, args.month)
+    out_dir = os.path.join(args.out_root, args.month, _model_slug(args.model_name))
     os.makedirs(out_dir, exist_ok=True)
 
     cfg = {"model_base_url": args.model_base_url, "model_key": args.model_key,

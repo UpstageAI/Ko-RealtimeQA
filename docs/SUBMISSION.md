@@ -12,10 +12,10 @@ python eval/evaluate.py --month <YYYY-MM> \
 
 ## 현재 회차 (정답 보류) — 제출형
 
-정답(`_qa.jsonl`)·원문(`_source.jsonl`)이 없으므로, 스크립트는 **답변만 생성**해 조건별 제출 파일을 만든다(채점 없음 → Upstage 키 불필요).
+gold 정답(`_qa.jsonl`)이 없으므로, 스크립트는 **답변만 생성**해 조건별 제출 파일을 만든다(채점 없음 → Upstage 키 불필요). 원문(`_source`)·검색본(`_retrieve`)은 공개되므로 세 조건 모두 생성한다.
 
 1. `python eval/evaluate.py --month <현재월> --model-base-url … --model-name … --model-key …`
-2. → `eval/<현재월>/submission_closed.jsonl`, `submission_retrieved.jsonl` 생성 (`_source` 없으므로 oracle 제외)
+2. → `eval/<현재월>/<모델>/submission_{closed,retrieved,oracle}.jsonl` 생성
 3. 이 파일을 운영자에게 제출 → 보류된 정답으로 채점해 결과 회신
 4. 주요 모델 리더보드는 운영자가 회차별로 공개
 
