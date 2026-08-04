@@ -1,30 +1,38 @@
 # 제출·채점 방식
 
-Ko-RealtimeQA는 오염 방지를 위해 **현재(최신) 회차는 정답을 보류**한다. 따라서 현재 회차는 제출형으로, 과거 회차는 자율 채점으로 운영한다.
+Ko-RealtimeQA는 오염 방지를 위해 **현재(최신) 회차는 정답을 보류**한다. 그래서 현재 회차는 제출형, 과거 회차는 자율 채점으로 운영한다.
+
+두 경우 모두 **같은 스크립트**를 쓴다 — `eval/evaluate.py`는 회차에 정답(`{월}_qa.jsonl`)이 있는지로 자동 분기한다. 결과는 `eval/<YYYY-MM>/`에 저장된다.
+
+```bash
+python eval/evaluate.py --month <YYYY-MM> \
+  --model-base-url https://<host>/v1 --model-name <내-모델-id> --model-key <KEY> \
+  [--upstage-key <UPSTAGE_KEY>]   # 채점(과거 회차)에만 필요
+```
 
 ## 현재 회차 (정답 보류) — 제출형
 
-1. 배포된 질문 `{월}_qa_public.jsonl`(정답 공란)과 검색 동결본 `{월}_retrieve.jsonl`로 자신의 모델 답변을 생성한다.
-2. `sample_submission.jsonl` 포맷에 맞춰 답변 파일을 만든다.
-3. 운영자에게 제출하면, 보류된 정답으로 채점해 결과를 회신한다.
-4. 주요 모델 리더보드는 운영자가 직접 돌려 회차별로 공개한다.
+정답(`_qa.jsonl`)·원문(`_source.jsonl`)이 없으므로, 스크립트는 **답변만 생성**해 조건별 제출 파일을 만든다(채점 없음 → Upstage 키 불필요).
 
-제출 포맷(회차별 `sample_submission.jsonl` 참조):
+1. `python eval/evaluate.py --month <현재월> --model-base-url … --model-name … --model-key …`
+2. → `eval/<현재월>/submission_closed.jsonl`, `submission_retrieved.jsonl` 생성 (`_source` 없으므로 oracle 제외)
+3. 이 파일을 운영자에게 제출 → 보류된 정답으로 채점해 결과 회신
+4. 주요 모델 리더보드는 운영자가 회차별로 공개
 
+제출 파일 포맷(한 줄 1문항, `eval/sample_submission.jsonl` 참조):
 ```json
-{"id": "<문항 ID>", "prediction": "<모델 답변>"}
+{"id": "<문항 ID>", "answer": "<모델이 생성한 한 문장 답>"}
 ```
 
-각 조건(`closed`/`retrieved`/`oracle`)별로 답변을 제출할 수 있다.
+## 과거 회차 (정답 공개) — 자율 채점 + 리포트
 
-## 과거 회차 (정답 공개) — 자율 채점
-
-평가 창이 닫힌 과거 회차는 정답(`_qa`)·원문(`_source`)이 공개되므로, 배포된 `evaluate.py`로 직접 채점할 수 있다.
+평가 창이 닫힌 과거 회차는 정답(`_qa`)·원문(`_source`)이 공개되므로, 스크립트가 **생성 + 채점 + 리포트**까지 한다(Upstage 키 필요).
 
 ```bash
-cd release/<과거 회차>
-python evaluate.py --help
+python eval/evaluate.py --month <과거월> \
+  --model-base-url … --model-name … --model-key … --upstage-key <UPSTAGE_KEY>
 ```
+→ `eval/<과거월>/` 에 `summary.json` · `results.jsonl` · `report.md` · `report.html`
 
 ## 채점 지표
 

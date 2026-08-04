@@ -18,19 +18,21 @@ LLM은 학습 cutoff 이후의 사건·수치를 스스로 알 수 없다. 정�
 
 ```
 Ko-RealtimeQA/
-├── release/
-│   └── 2026-06/                 회차별 배포 폴더
-│       ├── 202606_qa.jsonl          정답 포함 (채점 기준) — 과거 회차만 공개
-│       ├── 202606_qa_public.jsonl   정답 공란 (배포용 질문)
-│       ├── 202606_source.jsonl      정답 출처 원문 (oracle 조건) — 과거 회차만 공개
-│       ├── 202606_retrieve.jsonl    웹검색 동결본 (retrieved 조건)
-│       ├── sample_submission.jsonl  제출 포맷 예시
-│       ├── evaluate.py              단독 실행 평가 스크립트
-│       ├── README.md                회차 상세·사용법
-│       ├── manifest.json            메타·SHA256·라이선스
-│       └── report.md                주요 모델 평가 리포트
+├── README.md                    데이터셋 소개·사용법 (이 파일)
+├── LICENSE.md
+├── release/                     회차별 데이터 (월별로 업데이트)
+│   ├── 2026-06/                     과거 회차 — 정답 공개
+│   │   ├── 202606_qa.jsonl              정답 포함 (채점 기준)
+│   │   ├── 202606_qa_public.jsonl       정답 공란 (배포용 질문)
+│   │   ├── 202606_source.jsonl          정답 출처 원문 (oracle 조건)
+│   │   ├── 202606_retrieve.jsonl        웹검색 동결본 (retrieved 조건)
+│   │   └── manifest.json                메타·SHA256·라이선스
+│   └── 2026-07/ …                   (현재 회차는 _qa_public·_retrieve만, 정답·원문 보류)
+├── eval/
+│   ├── evaluate.py              단독 실행 평가·제출 스크립트 (requests만 필요)
+│   ├── sample_submission.jsonl  제출 포맷 예시
+│   └── <YYYY-MM>/               evaluate.py 실행 결과 (자동 생성)
 └── docs/
-    ├── METHODOLOGY.md           벤치마크 생성·검증 방법(개요)
     └── SUBMISSION.md            제출·채점 방식
 ```
 
@@ -42,18 +44,26 @@ Ko-RealtimeQA/
 | **retrieved** | 웹검색 top-10 동결본 | 고정 검색 결과 주입 (전 모델 동일 → 공정·재현) |
 | **oracle** | 정답 출처 원문 | 성능 상한선 |
 
-판정은 LLM judge가 **Relaxed / Strict / 환각률**로 매긴다. 상세는 각 `release/<월>/README.md`.
+판정은 LLM judge가 **Relaxed / Strict / 환각률**로 매긴다. 상세는 [docs/SUBMISSION.md](docs/SUBMISSION.md).
 
 ## 빠른 시작 — 내 모델 평가
 
-각 회차 폴더는 **저장소 없이 단독 실행**된다. 필요한 건 `requests`뿐이다.
+`eval/evaluate.py` 하나로 실행된다(저장소 불필요, `requests`만 필요). **회차(월)만 지정**하면 그 회차에 정답이 있는지로 자동 분기한다.
 
 ```bash
-cd release/2026-06
-python evaluate.py --help     # 사용법
+# 과거 회차(정답 공개) → 답변 생성 + 채점 + 리포트
+python eval/evaluate.py --month 2026-06 \
+  --model-base-url https://<host>/v1 --model-name <내-모델-id> --model-key <KEY> \
+  --upstage-key <UPSTAGE_KEY>
+
+# 현재 회차(정답 미공개) → 답변만 생성해 제출 파일 (채점 키 불필요)
+python eval/evaluate.py --month 2026-08 \
+  --model-base-url https://<host>/v1 --model-name <내-모델-id> --model-key <KEY>
 ```
 
-`evaluate.py`는 3조건에 대해 답변 생성 → 채점 → 집계까지 수행한다. 후보 모델은 OpenAI 호환 엔드포인트로 연결하며(비호환이면 스크립트 내 `call_candidate` 한 곳만 교체), 채점(judge)에는 API 키가 필요하다.
+- 정답(`_qa.jsonl`)이 있으면 **채점 + 리포트**(`report.md`), 없으면 **제출 파일**(`submission_<조건>.jsonl`)만 생성한다.
+- 결과는 **`eval/<YYYY-MM>/`** 에 저장된다.
+- 후보 모델이 OpenAI 호환 엔드포인트가 아니면 스크립트의 `call_candidate` 한 곳만 자신의 추론으로 교체하면 된다.
 
 ## 운영 방식
 
@@ -63,7 +73,7 @@ python evaluate.py --help     # 사용법
 
 ## 생성 방식
 
-문항은 뉴스 원문에서 자동 생성·검증된다(요지: 정답을 먼저 확정한 뒤 그 답을 묻는 질문을 만드는 역방향 생성 + 다지표·왕복 재풀이 자동 검증). 개요는 [docs/METHODOLOGY.md](docs/METHODOLOGY.md)에 있으며, **생성·검증 파이프라인의 실행 코드·프롬프트는 공개하지 않는다**(벤치마크 무결성 보호).
+문항은 뉴스 원문에서 자동 생성·검증된다. 요지는 **정답을 먼저 확정한 뒤 그 답을 묻는 질문을 만드는 역방향 생성** + **다지표·왕복 재풀이 자동 검증**으로, 최신성 없는 문항과 정답 누설을 앞단에서 차단한다. **생성·검증 파이프라인의 실행 코드·프롬프트는 공개하지 않는다**(벤치마크 무결성 보호).
 
 ## 라이선스
 
