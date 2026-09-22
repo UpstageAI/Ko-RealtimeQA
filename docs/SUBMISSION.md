@@ -32,7 +32,7 @@ gold 정답(`_qa.jsonl`)이 없으므로, 스크립트는 **답변만 생성**�
 python eval/evaluate.py --month <과거월> \
   --model-base-url … --model-name … --model-key … --upstage-key <UPSTAGE_KEY>
 ```
-→ `eval/<과거월>/` 에 `summary.json` · `results.jsonl` · `report.md` · `report.html`
+→ `eval/<과거월>/` 에 `summary.json` · `results.jsonl` · `report.md`
 
 ## 채점 지표
 
