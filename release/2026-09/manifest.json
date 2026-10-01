@@ -1,0 +1,30 @@
+{
+ "dataset": "Ko-RealtimeQA",
+ "month": "2026-09",
+ "version": "v1",
+ "usage": "academic/research only",
+ "source": "korea.kr 정책뉴스 (공공누리 제1유형)",
+ "license_by_file": {
+  "202609_qa_public.jsonl": "CC BY 4.0 (korea.kr 정책뉴스, 공공누리 제1유형)",
+  "202609_source.jsonl": "CC BY 4.0 (korea.kr 정책뉴스 원문, 공공누리 제1유형)",
+  "202609_retrieve.jsonl": "연구용(research use only). 제3자 웹 콘텐츠로 원저작권자 소유 — 재현성 목적 수집·저장, 각 문서 URL 명시(출처 추적), 권리자 요청 시 삭제(takedown). 상업적 이용 불가."
+ },
+ "schema_version": "4.1",
+ "answers_separated": true,
+ "counts": {
+  "qa": 251,
+  "articles": 251
+ },
+ "files": {
+  "qa_public": "202609_qa_public.jsonl",
+  "source": "202609_source.jsonl",
+  "retrieve": "202609_retrieve.jsonl"
+ },
+ "sha256": {
+  "202609_qa_public.jsonl": "8018592ef71c2d0ad2013a145d028ca24b9312dcd8919f99476014abe0e538bc",
+  "202609_source.jsonl": "1d36378a2a43d283f4eb2bb637652a3c169079a8c39dfa83ff6260c24ca4ee74",
+  "202609_retrieve.jsonl": "f4ac77bdd51ffeeea7a2283a500abe8670a9f5de9feb5e93ce01de32f96f5257"
+ },
+ "answers_withheld": true,
+ "note": "현재 회차: gold 정답(_qa)은 평가 창 종료 후 공개"
+}

@@ -1,31 +1,31 @@
 {
- "dataset": "Ko-RealtimeQA",
- "month": "2026-08",
- "version": "v1",
- "usage": "academic/research only",
- "source": "korea.kr 정책뉴스 (공공누리 제1유형)",
- "license_by_file": {
-  "202608_qa.jsonl": "CC BY 4.0 (korea.kr 정책뉴스, 공공누리 제1유형)",
-  "202608_qa_public.jsonl": "CC BY 4.0 (korea.kr 정책뉴스, 공공누리 제1유형)",
-  "202608_source.jsonl": "CC BY 4.0 (korea.kr 정책뉴스 원문, 공공누리 제1유형)",
-  "202608_retrieve.jsonl": "연구용(research use only). 제3자 웹 콘텐츠로 원저작권자 소유 — 재현성 목적 수집·저장, 각 문서 URL 명시(출처 추적), 권리자 요청 시 삭제(takedown). 상업적 이용 불가."
- },
- "schema_version": "4.1",
- "answers_separated": true,
- "counts": {
-  "qa": 242,
-  "articles": 242
- },
- "files": {
-  "qa_public": "202608_qa_public.jsonl",
-  "source": "202608_source.jsonl",
-  "retrieve": "202608_retrieve.jsonl"
- },
- "sha256": {
-  "202608_qa_public.jsonl": "123ccc387ae749769badd1d18d1bd70cc41978324af24fd1b59892ae98007cb5",
-  "202608_source.jsonl": "35d38cfe346590a65ca23e0166529d3b5eec42f1d65e5fe829d44ea90f07f383",
-  "202608_retrieve.jsonl": "bf6edde89e14845e05891838c48a5dc86962d94392653bf8330a0514755ec635"
- },
- "answers_withheld": true,
- "note": "현재 회차: gold 정답(_qa)은 평가 창 종료 후 공개"
+  "dataset": "Ko-RealtimeQA",
+  "month": "2026-08",
+  "version": "v1",
+  "usage": "academic/research only",
+  "source": "korea.kr 정책뉴스 (공공누리 제1유형)",
+  "license_by_file": {
+    "202608_qa.jsonl": "CC BY 4.0 (korea.kr 정책뉴스, 공공누리 제1유형)",
+    "202608_qa_public.jsonl": "CC BY 4.0 (korea.kr 정책뉴스, 공공누리 제1유형)",
+    "202608_source.jsonl": "CC BY 4.0 (korea.kr 정책뉴스 원문, 공공누리 제1유형)",
+    "202608_retrieve.jsonl": "연구용(research use only). 제3자 웹 콘텐츠로 원저작권자 소유 — 재현성 목적 수집·저장, 각 문서 URL 명시(출처 추적), 권리자 요청 시 삭제(takedown). 상업적 이용 불가."
+  },
+  "schema_version": "4.1",
+  "answers_separated": true,
+  "counts": {
+    "qa": 242,
+    "articles": 242
+  },
+  "files": {
+    "qa": "202608_qa.jsonl",
+    "qa_public": "202608_qa_public.jsonl",
+    "source": "202608_source.jsonl",
+    "retrieve": "202608_retrieve.jsonl"
+  },
+  "sha256": {
+    "202608_qa.jsonl": "5bc59babc6fcba61c47d95861e636eb4390d55c34df256754377276f573ba424",
+    "202608_qa_public.jsonl": "123ccc387ae749769badd1d18d1bd70cc41978324af24fd1b59892ae98007cb5",
+    "202608_source.jsonl": "35d38cfe346590a65ca23e0166529d3b5eec42f1d65e5fe829d44ea90f07f383",
+    "202608_retrieve.jsonl": "bf6edde89e14845e05891838c48a5dc86962d94392653bf8330a0514755ec635"
+  }
 }
